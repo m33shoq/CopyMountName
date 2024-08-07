@@ -37,7 +37,6 @@ local function mountMenuHook(owner, rootDescription)
 	if not owner.mountID then return end
 	local name = C_MountJournal.GetMountInfoByID(owner.mountID);
 	rootDescription:CreateDivider();
-	rootDescription:CreateTitle("My Addon");
 	rootDescription:CreateButton("Copy mount name", showCopyPopup, name)
 end
 
