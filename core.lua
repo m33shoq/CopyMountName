@@ -1,5 +1,5 @@
 local function onShow(self)
-	self.editBox:SetScript("OnKeyDown",function(self,key)
+	self.editBox:SetScript("OnKeyDown",function(_,key)
 		if key == "C" and IsControlKeyDown() then
 			C_Timer.After(0.1,function()
 				StaticPopup_Hide("COPY_MOUNT_NAME")
@@ -22,7 +22,6 @@ StaticPopupDialogs["COPY_MOUNT_NAME"] = {
 	whileDead = true,
 	hideOnEscape = true,
 	preferredIndex = 3,
-	showAlert = true,
 }
 
 local function showCopyPopup(str)
