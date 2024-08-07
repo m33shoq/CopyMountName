@@ -1,0 +1,6 @@
+## Interface: 110000
+## Title: Copy Mount Name
+## Author: m33shoq
+## Version: 1.0.0
+
+core.lua
