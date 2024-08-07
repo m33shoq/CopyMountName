@@ -2,5 +2,6 @@
 ## Title: Copy Mount Name
 ## Author: m33shoq
 ## Version: 1.0.1
+## X-Wago-ID: nKW1EoNE
 
 core.lua
