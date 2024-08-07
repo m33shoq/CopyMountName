@@ -2,6 +2,8 @@
 ## Title: Copy Mount Name
 ## Author: m33shoq
 ## Version: 1.0.1
+## X-Curse-Project-ID: 1079291
+## X-WoWI-ID: 26794
 ## X-Wago-ID: nKW1EoNE
 
 core.lua
