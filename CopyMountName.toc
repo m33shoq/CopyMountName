@@ -1,4 +1,4 @@
-## Interface: 110000
+## Interface: 110000, 110002
 ## Title: Copy Mount Name
 ## Author: m33shoq
 ## Version: 1.0.1
