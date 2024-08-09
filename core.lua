@@ -33,10 +33,34 @@ local function showCopyPopup(str)
 end
 
 local function mountMenuHook(owner, rootDescription)
-	if not owner.mountID then return end
-	local name = C_MountJournal.GetMountInfoByID(owner.mountID);
+    local mountID = owner.mountID or owner:GetParent().mountID
+	if not mountID then return end
+	local name = C_MountJournal.GetMountInfoByID(mountID);
 	rootDescription:CreateDivider();
 	rootDescription:CreateButton("Copy mount name", showCopyPopup, name)
 end
 
 Menu.ModifyMenu("MENU_MOUNT_COLLECTION_MOUNT",mountMenuHook)
+
+
+local function CreateContextMenu(owner, rootDescription, index)
+	rootDescription:SetTag("MENU_MOUNT_COLLECTION_MOUNT_HOOKED");
+
+    local name = C_MountJournal.GetDisplayedMountInfo(index);
+	rootDescription:CreateButton("Copy mount name", showCopyPopup, name)
+end
+
+EventUtil.ContinueOnAddOnLoaded("Blizzard_Collections", function()
+    local function onClick(self, button)
+        if button ~= "LeftButton" then
+            local index = self.index or self:GetParent().index
+            local isCollected = select(11, C_MountJournal.GetDisplayedMountInfo(index));
+            if not isCollected then -- blizzard won't show the context menu for uncollected mounts
+                MenuUtil.CreateContextMenu(self, CreateContextMenu, index);
+            end
+        end
+    end
+
+    hooksecurefunc("MountListItem_OnClick", onClick)
+end)
+
