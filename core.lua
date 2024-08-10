@@ -64,3 +64,26 @@ EventUtil.ContinueOnAddOnLoaded("Blizzard_Collections", function()
     hooksecurefunc("MountListItem_OnClick", onClick)
 end)
 
+EventUtil.ContinueOnAddOnLoaded("Blizzard_AchievementUI", function ()
+
+    local function CreateContextMenu(owner, rootDescription)
+        rootDescription:SetTag("MENU_ACHIEVEMENT_COLLECTION_MOUNT_HOOKED");
+
+        local _, achievementName, points, completed, month, day, year, description, flags, iconpath = GetAchievementInfo(owner.id);
+        rootDescription:CreateButton("Copy achievement name", showCopyPopup, achievementName)
+    end
+
+    local _ProcessClick = AchievementTemplateMixin.ProcessClick
+    function AchievementTemplateMixin:ProcessClick(buttonName, down) -- i am horrified at taint possibilities
+        if buttonName == "RightButton" then
+            MenuUtil.CreateContextMenu(self, CreateContextMenu);
+        else
+            _ProcessClick(self, buttonName, down)
+        end
+	end
+
+    hooksecurefunc(AchievementTemplateMixin, "OnLoad", function (self)
+        self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+    end)
+
+end)
