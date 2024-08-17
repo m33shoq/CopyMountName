@@ -1,7 +1,7 @@
 ## Interface: 110000, 110002
 ## Title: Copy Mount Name
 ## Author: m33shoq
-## Version: 1.0.1
+## Version: 1.0.6
 ## X-Curse-Project-ID: 1079291
 ## X-WoWI-ID: 26794
 ## X-Wago-ID: nKW1EoNE

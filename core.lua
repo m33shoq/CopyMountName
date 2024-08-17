@@ -28,10 +28,11 @@ local function showCopyPopup(str)
 	if str and str ~= "" then
 		StaticPopup_Show("COPY_MOUNT_NAME",str)
 	else
-		print("No mount name found")
+		print("No name found")
 	end
 end
 
+-- mount collection
 local function mountMenuHook(owner, rootDescription)
     local mountID = owner.mountID or owner:GetParent().mountID
 	if not mountID then return end
@@ -64,6 +65,7 @@ EventUtil.ContinueOnAddOnLoaded("Blizzard_Collections", function()
     hooksecurefunc("MountListItem_OnClick", onClick)
 end)
 
+-- achievements
 EventUtil.ContinueOnAddOnLoaded("Blizzard_AchievementUI", function ()
 
     local function CreateContextMenu(owner, rootDescription)
@@ -86,4 +88,39 @@ EventUtil.ContinueOnAddOnLoaded("Blizzard_AchievementUI", function ()
         self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
     end)
 
+end)
+
+-- pet collection
+local function petMenuHook(owner, rootDescription)
+    local petID = owner.petID or owner:GetParent().petID
+	if not petID then return end
+	local name = select(8, C_PetJournal.GetPetInfoByPetID(petID));
+	rootDescription:CreateDivider();
+	rootDescription:CreateButton("Copy pet name", showCopyPopup, name)
+end
+
+Menu.ModifyMenu("MENU_PET_COLLECTION_PET",petMenuHook)
+
+local function CreateContextMenu(owner, rootDescription, index)
+	rootDescription:SetTag("MENU_PET_COLLECTION_PET_HOOKED");
+
+    local name = select(8, C_PetJournal.GetPetInfoByIndex(index));
+	rootDescription:CreateButton("Copy pet name", showCopyPopup, name)
+end
+
+EventUtil.ContinueOnAddOnLoaded("Blizzard_Collections", function() -- clicking on the uncollected pet invokes a lag
+    local function onClick(self, button)
+        if button == "RightButton"  then
+            local index = self.index or self:GetParent().index
+            local owned = self.owned or self:GetParent().owned
+
+            if not owned then -- blizzard won't show the context menu for uncollected pets
+                MenuUtil.CreateContextMenu(self, CreateContextMenu, index);
+            end
+        end
+    end
+
+    hooksecurefunc("PetJournal_InitPetButton", function(self)
+        self:HookScript("OnClick", onClick)
+    end)
 end)
