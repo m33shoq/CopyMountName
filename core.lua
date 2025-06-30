@@ -1,16 +1,18 @@
 local function onShow(self)
-	self.editBox:SetScript("OnKeyDown",function(_,key)
+    local editBox = self.editBox or self.EditBox
+    local text = self.text or self.Text
+	editBox:SetScript("OnKeyDown",function(_,key)
 		if key == "C" and IsControlKeyDown() then
 			C_Timer.After(0.1,function()
 				StaticPopup_Hide("COPY_MOUNT_NAME")
 			end)
 
-			self.editBox:SetScript("OnKeyDown",nil)
+			editBox:SetScript("OnKeyDown",nil)
 		end
   end)
-  self.editBox:SetText(self.text.text_arg1 or "")
-  self.editBox:HighlightText()
-  self.editBox:SetFocus()
+  editBox:SetText(text.text_arg1 or "")
+  editBox:HighlightText()
+  editBox:SetFocus()
 end
 
 StaticPopupDialogs["COPY_MOUNT_NAME"] = {
