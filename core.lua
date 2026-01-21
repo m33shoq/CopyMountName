@@ -1,12 +1,7 @@
 local function onShow(self)
-    if issecretvalue and issecretvalue(text.text_arg1) then
-        print("CopyMountName: Copied text is a secret value, aborting copy.")
-        StaticPopup_Hide("COPY_MOUNT_NAME")
-        return
-    end
-
     local editBox = self.editBox or self.EditBox
     local text = self.text or self.Text
+
 	editBox:SetScript("OnKeyDown",function(_,key)
 		if key == "C" and IsControlKeyDown() then
 			C_Timer.After(0.1,function()
@@ -33,6 +28,11 @@ StaticPopupDialogs["COPY_MOUNT_NAME"] = {
 }
 
 local function showCopyPopup(str)
+    if issecretvalue and issecretvalue(str) then
+        print("CopyMountName: Copied text is a secret value, aborting copy.")
+        return
+    end
+
 	if str and str ~= "" then
 		StaticPopup_Show("COPY_MOUNT_NAME",str)
 	else
