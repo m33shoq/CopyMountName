@@ -1,4 +1,10 @@
 local function onShow(self)
+    if issecretvalue and issecretvalue(text.text_arg1) then
+        print("CopyMountName: Copied text is a secret value, aborting copy.")
+        StaticPopup_Hide("COPY_MOUNT_NAME")
+        return
+    end
+
     local editBox = self.editBox or self.EditBox
     local text = self.text or self.Text
 	editBox:SetScript("OnKeyDown",function(_,key)
