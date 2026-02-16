@@ -132,3 +132,24 @@ EventUtil.ContinueOnAddOnLoaded("Blizzard_Collections", function() -- clicking o
         self:HookScript("OnClick", onClick)
     end)
 end)
+
+Menu.ModifyMenu("MENU_QUEST_MAP_LOG_TITLE", function(owner, rootDescription)
+    local title = type(owner.info) == "table" and owner.info.title or nil;
+    if title then
+        rootDescription:CreateDivider();
+        rootDescription:CreateButton("Copy quest title", showCopyPopup, title)
+    end
+end)
+
+Menu.ModifyMenu("MENU_QUEST_OBJECTIVE_TRACKER", function(owner, rootDescription, ...)
+    local questName = nil
+    for index, desc in rootDescription:EnumerateElementDescriptions() do
+		questName = desc.text
+        break
+	end
+
+    if questName then
+        rootDescription:CreateDivider();
+        rootDescription:CreateButton("Copy quest title", showCopyPopup, questName)
+    end
+end)
